@@ -2,7 +2,7 @@
 Guidelines
 ==========
 
-As this utility was need to assist the PlayScript Reduc project, it uses the same contribution guidelines:
+As this utility was needed to assist the PlayScript Reduc project, it uses the same contribution guidelines:
 
 When contributing to the PlayScript Redux project, please follow the [Mono Coding Guidelines][1].  Mono has been using a coding style for many years, please make your patches conform to these guidelines.
 
