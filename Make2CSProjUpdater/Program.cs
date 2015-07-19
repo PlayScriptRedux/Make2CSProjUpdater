@@ -11,7 +11,7 @@ namespace Make2CSProjUpdater
 
 	class MainClass
 	{
-		static int verbosity;
+		static int verbosity = 1;
 
 		static void ShowHelp (OptionSet p)
 		{
@@ -65,6 +65,11 @@ namespace Make2CSProjUpdater
 					v => {
 						if (v != null)
 							++verbosity;
+					}
+				}, { "q|quiet", "Decrease message verbosity.",
+					v => {
+						if (v != null)
+							--verbosity;
 					}
 				}, { "h|help",  "Show this message and exit", 
 					v => showHelp = v != null
@@ -141,7 +146,13 @@ namespace Make2CSProjUpdater
 				}                    
 			}
                 
-			var itemGroup = xProject.Root.Elements ().First (g => (g.Name == ns + "ItemGroup") && (g.Descendants ().Any (i => i.Name == ns + "Compile")));
+			XElement itemGroup;
+			try {
+				itemGroup = xProject.Root.Elements ().First (g => (g.Name == ns + "ItemGroup") && (g.Descendants ().Any (i => i.Name == ns + "Compile")));
+			} catch {
+				itemGroup = new XElement (ns + "ItemGroup");
+				xProject.Root.Add (itemGroup);
+			}
 			foreach (var makeSource in makeSources) {
 				if (!compiles.Any (s => (s.Attribute ("Include").Value.Replace ('\\', '/') == makeSource))) {
 					Log ("Adding:\t{0}", makeSource);
